@@ -54,6 +54,32 @@ else:
     print("Failed to fetch location data")
 
 all_reviews_df = pd.DataFrame()
+import requests
+import pandas as pd
+
+headers = {
+    "X-RapidAPI-Key": "your_key",
+    "X-RapidAPI-Host": "local-business-data.p.rapidapi.com"
+}
+
+params = {
+    "query": "coffee shop",
+    "lat": "40.730610",
+    "lng": "-73.935242",
+    "radius": "1000",
+    "limit": "5",
+    "language": "en",
+    "zoom": "14"
+}
+
+url = "https://local-business-data.p.rapidapi.com/search-in-area"
+response = requests.get(url, headers=headers, params=params)
+
+if response.status_code == 200:
+    data = response.json()
+    location_df = pd.DataFrame(data.get("data", []))
+else:
+    location_df = pd.DataFrame()
 
 if not location_df.empty and 'business_id' in location_df.columns:
     for business_id in location_df['business_id']:
