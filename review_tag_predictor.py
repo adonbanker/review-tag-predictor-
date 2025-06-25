@@ -103,7 +103,15 @@ def clean_text(text):
         return ' '.join(word for word in text.split() if word not in stop_words)
     return ""
 
-all_reviews_df['cleaned_review_text'] = all_reviews_df['review_text'].apply(clean_text)
+st.write("Columns in all_reviews_df:", all_reviews_df.columns.tolist())
+st.write("Sample review data:")
+st.write(all_reviews_df.head())
+
+if 'review_text' in all_reviews_df.columns:
+    all_reviews_df['cleaned_review_text'] = all_reviews_df['review_text'].apply(clean_text)
+else:
+    st.error("'review_text' column not found in review data. Please check the API response or rename the column accordingly.")
+
 
 lemmatizer = WordNetLemmatizer()
 
