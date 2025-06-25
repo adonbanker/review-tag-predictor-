@@ -106,7 +106,23 @@ try:
     all_reviews_df
 except NameError:
     all_reviews_df = pd.DataFrame()
-    
+
+import pandas as pd
+import streamlit as st
+
+# Safely create all_reviews_df if not created
+if 'all_reviews_df' not in globals():
+    all_reviews_df = pd.DataFrame()
+
+st.write("Columns in all_reviews_df:", all_reviews_df.columns.tolist())
+st.write("Sample review data:")
+st.write(all_reviews_df.head())
+
+if 'review_text' in all_reviews_df.columns:
+    all_reviews_df['cleaned_review_text'] = all_reviews_df['review_text'].apply(clean_text)
+else:
+    st.error("'review_text' column not found.")
+
 st.write("Columns in all_reviews_df:", all_reviews_df.columns.tolist())
 st.write("Sample review data:")
 st.write(all_reviews_df.head())
